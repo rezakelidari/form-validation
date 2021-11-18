@@ -8,9 +8,16 @@
 
 html {
   font: 15px sans-serif;
+  color: #ffffff;
   overflow-x: hidden;
 }
 
 #root {
   overflow-x: hidden;
+}
+
+a {
+  color: #ffffff;
+  text-decoration: none;
+  border-bottom: 1px solid #ffffff;
 }
