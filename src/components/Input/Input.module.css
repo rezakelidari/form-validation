@@ -1,0 +1,48 @@
+@import url("../../styles/colors.css");
+
+.inputMain {
+  position: relative;
+}
+
+.inputInput {
+  position: relative;
+  background: none;
+  outline: none;
+  border: none;
+  padding: 1rem 2rem;
+  border-bottom: 2px solid #ffffff;
+  color: #ffffff;
+  transition: 0.3s ease all;
+}
+
+.inputLabel,
+.inputInput:empty + .inputLabel {
+  position: absolute;
+  left: 1rem;
+  top: 0.75rem;
+  cursor: text;
+  transition: 0.2s ease all;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.inputInput:focus {
+  border-bottom: 2px solid var(--bg-color);
+}
+
+.inputInput:valid + .inputLabel,
+.inputInput:invalid + .inputLabel,
+.inputInput:focus + .inputLabel {
+  top: -0.7rem;
+  font-size: 0.75rem;
+  color: #ffffff;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.inputInput:invalid:focus + .inputLabel {
+  top: -0.7rem;
+  font-size: 0.75rem;
+  color: rgb(255, 50, 50);
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+}
