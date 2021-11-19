@@ -4,16 +4,20 @@ import { auth } from "../../services/Firebase";
 const LoginContext = React.createContext();
 
 function LoginProvider({ children }) {
-  const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(null);
+  const [loading, setIsLoading] = useState(true);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       setLogin(user);
+      setIsLoading(false);
     });
-  }, [auth, login]);
+  }, [login]);
 
   return (
-    <LoginContext.Provider value={login}>{children}</LoginContext.Provider>
+    <LoginContext.Provider value={login}>
+      {!loading && children}
+    </LoginContext.Provider>
   );
 }
 
