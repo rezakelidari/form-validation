@@ -5,7 +5,7 @@ function NotFound() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate("/signup");
+    navigate("/login");
   }, []);
   return null;
 }
