@@ -1,15 +1,23 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import Styles from "./Login.module.css";
+
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
+
 import Input from "../../components/Input";
-import Styles from "./Login.module.css";
 import { LogIn } from "../../services/Firebase";
+import { LoginContext } from "../../provider/LoginProvider";
 
 function Login() {
+  const user = React.useContext(LoginContext);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const loginErrorRef = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    user && navigate("/user");
+  }, [user]);
 
   const LoginHandle = () => {
     if (userName.includes("@") && password.length >= 8) {
