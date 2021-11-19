@@ -1,0 +1,39 @@
+@import url("../../styles/colors.css");
+
+.userMain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3rem;
+  background: var(--bg-color);
+  min-height: 100vh;
+}
+
+.userBox {
+  background: #ffffff;
+  padding: 2rem;
+  font-size: 1.25rem;
+  border-radius: 1rem;
+  color: #000000;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.userButton {
+  border: none;
+  outline: none;
+  background: var(--bg-color);
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease all;
+}
+
+.userButton:hover {
+  box-shadow: 0 0 1rem var(--bg-color);
+}
