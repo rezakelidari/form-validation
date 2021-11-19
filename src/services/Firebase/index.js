@@ -4,6 +4,9 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  sendEmailVerification,
+  deleteUser,
+  updateProfile,
 } from "@firebase/auth";
 import { getAnalytics, logEvent } from "firebase/analytics";
 
@@ -20,14 +23,15 @@ const firebaseConfig = {
 const initialize = firebase.initializeApp(firebaseConfig);
 
 const auth = getAuth(initialize);
-auth.languageCode = "fa";
+auth.useDeviceLanguage();
 const analytics = getAnalytics(initialize);
 
-const SignUp = async (email, password) => {
+const SignUp = async (email, password, name) => {
   let result = "OK";
   await createUserWithEmailAndPassword(auth, email, password)
     .then(() => {
       logEvent(analytics, `User ${email} Created an account`);
+      updateProfile(auth.currentUser, { displayName: name });
     })
     .catch((error) => {
       logEvent(analytics, `An error occurred during ${email} Signing up`);
@@ -49,11 +53,49 @@ const LogIn = async (email, password) => {
   return result;
 };
 
-const LogOut = (navigate) => {
+const LogOut = async () => {
   logEvent(analytics, `User ${auth.currentUser.email} Loging out`);
-  signOut(auth).then(() => {
-    navigate("/login");
-  });
+  let result = "";
+
+  await signOut(auth)
+    .then(() => {
+      result = "OK";
+    })
+    .catch((error) => {
+      result = error;
+    });
+
+  return result;
 };
 
-export { auth, SignUp, LogIn, LogOut };
+const Verify = async () => {
+  let result = "";
+  logEvent(
+    analytics,
+    `Sending user ${auth.currentUser.email} verification mail`
+  );
+
+  await sendEmailVerification(auth.currentUser)
+    .then(() => {
+      result = "OK";
+    })
+    .catch((error) => {
+      result = error.code;
+    });
+
+  return result;
+};
+
+const DeleteAccount = async () => {
+  let result = "";
+  await deleteUser(auth.currentUser)
+    .then(() => {
+      result = "OK";
+    })
+    .catch((error) => {
+      result = error.code;
+    });
+  return result;
+};
+
+export { auth, SignUp, LogIn, LogOut, Verify, DeleteAccount };
