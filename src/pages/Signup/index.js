@@ -1,16 +1,45 @@
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 import Input from "../../components/Input";
+import { SignUp } from "../../services/Firebase";
 import Styles from "./Signup.module.css";
 
 function Signup() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const signupErrorRef = useRef(null);
+  const navigate = useNavigate();
 
   const signupHandle = () => {
     if (userName.includes("@") && password.length >= 8) {
-      console.log("OK");
+      SignUp(userName, password).then((result) => {
+        switch (result) {
+          case "OK":
+            navigate("/user");
+            break;
+
+          case "auth/email-already-exists" && "auth/email-already-in-use":
+            errorHandler("User exists");
+            break;
+
+          case "auth/email-already-in-use":
+            errorHandler("User exists");
+            break;
+
+          case "auth/internal-error":
+            errorHandler("Server error");
+            break;
+
+          case "auth/invalid-password":
+            errorHandler("Invalid password");
+            break;
+
+          default:
+            errorHandler("An unknown error!");
+            break;
+        }
+      });
     } else if (!userName.includes("@") && password.length < 8) {
       errorHandler("Incorrect email address, Incorrect password");
     } else if (!userName.includes("@")) {

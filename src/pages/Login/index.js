@@ -1,16 +1,33 @@
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 import Input from "../../components/Input";
 import Styles from "./Login.module.css";
+import { LogIn } from "../../services/Firebase";
 
 function Login() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const loginErrorRef = useRef(null);
+  const navigate = useNavigate();
 
   const LoginHandle = () => {
     if (userName.includes("@") && password.length >= 8) {
-      console.log("OK");
+      LogIn(userName, password).then((result) => {
+        switch (result) {
+          case "OK":
+            navigate("/user");
+            break;
+
+          case "auth/user-not-found":
+            errorHandler("User not found");
+            break;
+
+          default:
+            errorHandler("An unknown error!");
+            break;
+        }
+      });
     } else if (!userName.includes("@") && password.length < 8) {
       errorHandler("Incorrect email address, Incorrect password");
     } else if (!userName.includes("@")) {
