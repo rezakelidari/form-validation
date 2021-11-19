@@ -37,3 +37,30 @@
 .userButton:hover {
   box-shadow: 0 0 1rem var(--bg-color);
 }
+
+.userMessage {
+  position: absolute;
+  padding: 1rem 2rem;
+  bottom: 1rem;
+  left: 1rem;
+  background: #ffffff;
+  color: #000000;
+  font-weight: 700;
+  border-bottom: 5px solid #000000;
+  border-radius: 0.5rem;
+  opacity: 0;
+  transition: 1s ease all;
+}
+
+.userMessage.error {
+  color: rgb(200, 50, 50);
+  border-bottom: 5px solid rgb(200, 50, 50);
+}
+
+.userMessage.show {
+  opacity: 1;
+}
+
+.userMessage.hide {
+  opacity: 0;
+}

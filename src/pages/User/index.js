@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Styles from "./User.module.css";
 
 import { useNavigate } from "react-router";
@@ -9,17 +9,25 @@ import { LogOut, Verify, DeleteAccount } from "../../services/Firebase";
 function User() {
   const user = React.useContext(LoginContext);
   const navigate = useNavigate();
+  const messageRef = useRef(null);
 
   useEffect(() => {
     !user && navigate("/login");
   }, [user]);
 
-  {
-    user && console.log(user);
-  }
-
   const handleMessage = (isError, message) => {
-    console.log(message);
+    if (messageRef.current !== null) {
+      messageRef.current.className = `${Styles.userMessage} ${
+        isError && Styles.error
+      } ${Styles.show}`;
+      messageRef.current.innerText = message;
+      setTimeout(() => {
+        messageRef.current !== null &&
+          (messageRef.current.className = `${Styles.userMessage} ${
+            isError && Styles.error
+          } ${Styles.hide}`);
+      }, 3000);
+    }
   };
 
   return (
@@ -87,6 +95,9 @@ function User() {
             Delete Account
           </button>
         </div>
+      </div>
+      <div className={Styles.userMessage} ref={messageRef}>
+        Error!
       </div>
     </div>
   );
